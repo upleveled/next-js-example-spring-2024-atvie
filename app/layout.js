@@ -1,6 +1,7 @@
 import './globals.scss';
 import localFont from 'next/font/local';
 import Link from 'next/link';
+import CookieBanner from './CookieBanner';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <header>
           <div>
+            <CookieBanner />
             <nav>
               {/* This is not optimized */}
               {/* <a href="/">Home</a> */}
@@ -35,6 +37,7 @@ export default function RootLayout({ children }) {
               <Link href="/">Home</Link>
               <Link href="/about">About</Link>
               <Link href="/animals">Animals</Link>
+              <Link href="/fruits">Fruits</Link>
             </nav>
             {Math.floor(Math.random() * 10)}
           </div>

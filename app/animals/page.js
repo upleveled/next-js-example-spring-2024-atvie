@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { getAnimals } from '../../database/animals';
+import { getAnimalsInsecure } from '../../database/animals';
 
-export default function AnimalsPage() {
-  const animals = getAnimals();
+export default async function AnimalsPage() {
+  const animals = await getAnimalsInsecure();
 
   return (
     <div>

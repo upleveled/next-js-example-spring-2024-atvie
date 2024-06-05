@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { getAnimal } from '../../../database/animals';
+import { getAnimalInsecure } from '../../../database/animals';
 
-export function generateMetadata(props) {
-  const singleAnimal = getAnimal(Number(props.params.animalId));
+export async function generateMetadata(props) {
+  const singleAnimal = await getAnimalInsecure(Number(props.params.animalId));
 
   return {
     title: singleAnimal?.firstName,
@@ -11,8 +11,10 @@ export function generateMetadata(props) {
   };
 }
 
-export default function AnimalPage(props) {
-  const singleAnimal = getAnimal(Number(props.params.animalId));
+export default async function AnimalPage(props) {
+  const singleAnimal = await getAnimalInsecure(Number(props.params.animalId));
+
+  console.log('Single animal: ', singleAnimal);
 
   if (!singleAnimal) {
     notFound();

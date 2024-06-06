@@ -23,8 +23,8 @@ VALUES
 -- Read some animals (R in CRUD - Read)
 SELECT * FROM animals;
 
-CREATE DATABASE spring_2024;
-CREATE USER spring_2024 WITH ENCRYPTED PASSWORD 'spring_2024';
-GRANT ALL PRIVILEGES ON DATABASE spring_2024 TO spring_2024;
-\connect spring_2024;
-CREATE SCHEMA spring_2024 AUTHORIZATION spring_2024;
+CREATE DATABASE next_js_example_spring_2024_atvie;
+CREATE USER next_js_example_spring_2024_atvie WITH ENCRYPTED PASSWORD 'next_js_example_spring_2024_atvie';
+GRANT ALL PRIVILEGES ON DATABASE next_js_example_spring_2024_atvie TO next_js_example_spring_2024_atvie;
+\connect next_js_example_spring_2024_atvie
+CREATE SCHEMA next_js_example_spring_2024_atvie AUTHORIZATION next_js_example_spring_2024_atvie;

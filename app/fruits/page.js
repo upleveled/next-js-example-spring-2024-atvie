@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { fruits } from '../../database/fruits';
 import { getCookie } from '../../util/cookies';
+import { parseJson } from '../../util/json';
 
 // const fruits = [
 //   { id: 1, name: 'Apple', icon: '🍎' },
@@ -28,7 +29,9 @@ export default function FruitsPage() {
   // get cookie and parse it!
   const fruitsCommentsCookie = getCookie('fruitComments');
 
-  const fruitComments = JSON.parse(fruitsCommentsCookie);
+  const fruitComments = !fruitsCommentsCookie
+    ? []
+    : parseJson(fruitsCommentsCookie);
 
   const fruitsWithComments = fruits.map((fruit) => {
     const matchingWithFruitFromCookie = fruitComments.find(
@@ -37,8 +40,6 @@ export default function FruitsPage() {
     // ? Optional Chaining, means if matchingWithFruitFromCookie === undefined, return undefined, else return comment
     return { ...fruit, comment: matchingWithFruitFromCookie?.comment };
   });
-
-  console.log(fruitsWithComments);
 
   return (
     <>

@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getFruit } from '../../../database/fruits';
 import { getCookie } from '../../../util/cookies';
+import { parseJson } from '../../../util/json';
 import FruitCommentForm from './FruitCommentPage';
 
 export default function SingleFruitPage(props) {
@@ -13,9 +14,11 @@ export default function SingleFruitPage(props) {
   // get cookie and parse it!
   const fruitsCommentsCookie = getCookie('fruitComments');
 
-  const fruitsComments = JSON.parse(fruitsCommentsCookie);
+  const fruitComments = !fruitsCommentsCookie
+    ? []
+    : parseJson(fruitsCommentsCookie);
 
-  const fruitCommentToDisplay = fruitsComments.find((fruitComment) => {
+  const fruitCommentToDisplay = fruitComments.find((fruitComment) => {
     return fruitComment.id === fruit.id;
   });
 

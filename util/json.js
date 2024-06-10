@@ -1,4 +1,4 @@
-import { sjson } from 'secure-json-parse';
+import sjson from 'secure-json-parse';
 
 export function parseJson(stringifiedJson) {
   if (!stringifiedJson) return undefined;

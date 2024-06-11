@@ -1,13 +1,25 @@
 import { notFound } from 'next/navigation';
 import { updateAnimalInsecure } from '../../../../database/animals';
 
-export default async function UpdateAnimalNaivePage(props) {
+type Props = {
+  params: {
+    animalId: string;
+  };
+  searchParams: {
+    firstName: string;
+    type: string;
+    accessory: string;
+    birthDate: string;
+  };
+};
+
+export default async function UpdateAnimalNaivePage(props: Props) {
   const animal = await updateAnimalInsecure({
     id: Number(props.params.animalId),
     firstName: props.searchParams.firstName,
     type: props.searchParams.type,
     accessory: props.searchParams.accessory,
-    birthDate: props.searchParams.birthDate,
+    birthDate: new Date(props.searchParams.birthDate),
   });
 
   if (!animal) {

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { fruits } from '../../database/fruits';
+import { Fruit, fruits } from '../../database/fruits';
 import { getCookie } from '../../util/cookies';
 import { parseJson } from '../../util/json';
 
@@ -34,8 +34,12 @@ export default function FruitsPage() {
     : parseJson(fruitsCommentsCookie);
 
   const fruitsWithComments = fruits.map((fruit) => {
+    // type FruitObject = {
+    //   id: number;
+    // };
     const matchingWithFruitFromCookie = fruitComments.find(
-      (fruitObject) => fruit.id === fruitObject.id,
+      // (fruitObject: (typeof fruits)[number]) => fruit.id === fruitObject.id,
+      (fruitObject: Fruit) => fruit.id === fruitObject.id,
     );
     // ? Optional Chaining, means if matchingWithFruitFromCookie === undefined, return undefined, else return comment
     return { ...fruit, comment: matchingWithFruitFromCookie?.comment };

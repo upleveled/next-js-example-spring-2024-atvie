@@ -2,9 +2,16 @@ import { notFound } from 'next/navigation';
 import { getFruit } from '../../../database/fruits';
 import { getCookie } from '../../../util/cookies';
 import { parseJson } from '../../../util/json';
-import FruitCommentForm from './FruitCommentPage';
+import { FruitComment } from './actions';
+import FruitCommentForm from './FruitCommentForm';
 
-export default function SingleFruitPage(props) {
+type Props = {
+  params: {
+    fruitId: string;
+  };
+};
+
+export default function SingleFruitPage(props: Props) {
   const fruit = getFruit(Number(props.params.fruitId));
 
   if (!fruit) {
@@ -18,9 +25,11 @@ export default function SingleFruitPage(props) {
     ? []
     : parseJson(fruitsCommentsCookie);
 
-  const fruitCommentToDisplay = fruitComments.find((fruitComment) => {
-    return fruitComment.id === fruit.id;
-  });
+  const fruitCommentToDisplay = fruitComments.find(
+    (fruitComment: FruitComment) => {
+      return fruitComment.id === fruit.id;
+    },
+  );
 
   return (
     <>

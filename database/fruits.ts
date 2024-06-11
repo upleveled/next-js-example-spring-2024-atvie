@@ -1,4 +1,10 @@
-export const fruits = [
+export type Fruit = {
+  id: number;
+  name: string;
+  icon: string;
+};
+
+export const fruits: Fruit[] = [
   { id: 1, name: 'Apple', icon: '🍎' },
   { id: 2, name: 'Banana', icon: '🍌' },
   { id: 3, name: 'Kiwi', icon: '🥝' },
@@ -11,6 +17,6 @@ export function getFruits() {
   return fruits;
 }
 
-export function getFruit(id) {
+export function getFruit(id: Fruit['id']) {
   return fruits.find((fruit) => fruit.id === id);
 }

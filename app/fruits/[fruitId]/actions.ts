@@ -8,12 +8,17 @@ import { parseJson } from '../../../util/json';
 // Case B: cookie set, id doesn't exist yet
 // Case C: cookie set, id exists already
 
-export async function createOrUpdateCookie(fruitId, comment) {
+export type FruitComment = {
+  id: number;
+  comment: string;
+};
+
+export async function createOrUpdateCookie(fruitId: number, comment: string) {
   // 1. get current cookie
   const fruitsCommentsCookie = getCookie('fruitComments');
 
   // 2. parse the cookie value
-  const fruitComments = !fruitsCommentsCookie
+  const fruitComments: FruitComment[] = !fruitsCommentsCookie
     ? // Case A: cookie is undefined
       []
     : parseJson(fruitsCommentsCookie) || [];

@@ -6,8 +6,14 @@ import {
 } from '../../../../database/animals';
 import { reduceAnimalsWithFoods } from '../../../../util/dataStructures';
 
-export default async function AnimalFoodsPage(props) {
-  const animalsWithFoods = await getAnimalsWithFoodsInsecure(
+type Props = {
+  params: {
+    animalId: string;
+  };
+};
+
+export default async function AnimalFoodsPage(props: Props) {
+  const animalsWithFood = await getAnimalsWithFoodsInsecure(
     Number(props.params.animalId),
   );
 
@@ -15,10 +21,11 @@ export default async function AnimalFoodsPage(props) {
     Number(props.params.animalId),
   );
 
-  if (!animalsWithFoods[0]) notFound();
-  if (!animalWithFoodsArray) notFound();
+  if (!animalsWithFood[0] || !animalWithFoodsArray) {
+    notFound();
+  }
 
-  const animalWithFoods = reduceAnimalsWithFoods(animalsWithFoods);
+  const animalWithFoods = reduceAnimalsWithFoods(animalsWithFood);
 
   return (
     <div>

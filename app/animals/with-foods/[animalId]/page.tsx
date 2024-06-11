@@ -1,10 +1,17 @@
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import {
   getAnimalsWithFoodsInsecure,
   getAnimalWithFoodsInsecure,
 } from '../../../../database/animals';
 
-export default async function AnimalFoodsPage(props) {
+type Props = {
+  params: {
+    animalId: string;
+  };
+};
+
+export default async function AnimalFoodsPage(props: Props) {
   const animalsWithFood = await getAnimalsWithFoodsInsecure(
     Number(props.params.animalId),
   );
@@ -13,19 +20,21 @@ export default async function AnimalFoodsPage(props) {
     Number(props.params.animalId),
   );
 
-  const animal = animalsWithFood[0];
+  if (!animalsWithFood[0] || !animalWithFoodsArray) {
+    notFound();
+  }
 
   const animalWithFoods = {
-    id: animal.animalId,
-    firstName: animal.animalFirstName,
-    type: animal.animalType,
-    accessory: animal.animalAccessory,
-    birthDate: animal.animalBirthDate,
-    animalFoods: animalsWithFood.map((animalWithFood) => {
+    id: animalsWithFood[0].animalId,
+    firstName: animalsWithFood[0].animalFirstName,
+    type: animalsWithFood[0].animalType,
+    accessory: animalsWithFood[0].animalAccessory,
+    birthDate: animalsWithFood[0].animalBirthDate,
+    animalFoods: animalsWithFood.map((animal) => {
       return {
-        id: animalWithFood.animalFoodId,
-        name: animalWithFood.animalFoodName,
-        type: animalWithFood.animalFoodType,
+        id: animal.animalFoodId,
+        name: animal.animalFoodName,
+        type: animal.animalFoodType,
       };
     }),
   };

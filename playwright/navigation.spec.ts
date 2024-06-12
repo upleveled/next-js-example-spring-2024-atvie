@@ -34,7 +34,7 @@ test('navigation test', async ({ page }) => {
     },
     {
       id: 2,
-      firstName: 'Macca',
+      firstName: 'Maca',
       type: 'Dog',
       accessory: 'Comb',
       birthDate: new Date('2020-10-20'),

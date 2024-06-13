@@ -76,7 +76,7 @@ psql -U <user name> <database name>
 sudo -u <user name> psql -U <user name> <database name>
 ```
 
-### Run Tests
+## Run Tests
 
 To run unit tests with Jest, use the following command:
 
@@ -89,3 +89,8 @@ To run end-to-end tests with Playwright, use the following command:
 ```bash
 pnpm playwright test
 ```
+
+## Deployment
+
+- Fly.io
+- Docker

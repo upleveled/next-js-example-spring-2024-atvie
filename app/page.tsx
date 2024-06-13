@@ -9,7 +9,7 @@ export default function Home() {
     <div className={styles.homePage}>
       <GenerateButton />
       <LocalStorage />
-      <h1>UpLeveled</h1>
+      <h1>Hello UpLeveled</h1>
 
       {/* This is not ideal because its not optimized */}
       <img src="./images/smiling-cat.webp" alt="Smiling Cat" />

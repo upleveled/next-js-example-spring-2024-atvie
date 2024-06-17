@@ -1,21 +1,16 @@
 import { NextResponse } from 'next/server';
-import { z } from 'zod';
 import {
   createAnimalInsecure,
   getAnimalsInsecure,
 } from '../../../database/animals';
-import { Animal } from '../../../migrations/00000-createTableAnimals';
+import {
+  Animal,
+  animalSchema,
+} from '../../../migrations/00000-createTableAnimals';
 
 type AnimalsResponseBodyGet = {
   animals: Animal[];
 };
-
-export const animalSchema = z.object({
-  firstName: z.string(),
-  type: z.string(),
-  accessory: z.string().optional(),
-  birthDate: z.coerce.date(),
-});
 
 // Warning: You probably don't need this, because you can just do
 // a database query directly in your server component
@@ -37,9 +32,21 @@ export async function POST(
 ): Promise<NextResponse<AnimalsResponseBodyPost>> {
   const requestBody = await request.json();
 
+  // Validation schema for request body
   const result = animalSchema.safeParse(requestBody);
 
+  // If client sends request body with incorrect data,
+  // return a response with a 400 status code to the client
   if (!result.success) {
+    // error.issues [
+    //   {
+    //     code: 'invalid_type',
+    //     expected: 'string',
+    //     received: 'undefined',
+    //     path: [ 'name' ],
+    //     message: 'Required'
+    //   }
+    // ]
     return NextResponse.json(
       {
         error: 'Request does not contain animal object',

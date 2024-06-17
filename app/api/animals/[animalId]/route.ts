@@ -4,8 +4,10 @@ import {
   getAnimalInsecure,
   updateAnimalInsecure,
 } from '../../../../database/animals';
-import { Animal } from '../../../../migrations/00000-createTableAnimals';
-import { animalSchema } from '../route';
+import {
+  Animal,
+  animalSchema,
+} from '../../../../migrations/00000-createTableAnimals';
 
 type AnimalResponseBodyGet =
   | {
@@ -21,6 +23,8 @@ type AnimalParams = {
   };
 };
 
+// WARNING: You probably don't need this, because you can just do
+// a database query directly in your Server Component
 export async function GET(
   request: Request,
   { params }: AnimalParams,
@@ -72,6 +76,8 @@ export async function PUT(
 ): Promise<NextResponse<AnimalResponseBodyPut>> {
   const requestBody = await request.json();
 
+  // If client sends request body with incorrect data,
+  // return a response with a 400 status code to the client
   const result = animalSchema.safeParse(requestBody);
 
   if (!result.success) {

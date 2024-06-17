@@ -4,6 +4,7 @@ The Next.js example - Spring 2024 is a project that demonstrates how to use Next
 
 ![alt text](./public/homepage.png)
 ![alt text](./public/animalsPage.png)
+![alt text](./public/dashboard.png)
 
 ## Technologies
 

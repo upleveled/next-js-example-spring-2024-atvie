@@ -42,6 +42,11 @@ export default function RootLayout({ children }: Props) {
               <Link href="/about">About</Link>
               <Link href="/animals">Animals</Link>
               <Link href="/fruits">Fruits</Link>
+
+              <div>
+                <Link href="/register">Register</Link>
+                <Link href="/login">Login</Link>
+              </div>
             </nav>
             {Math.floor(Math.random() * 10)}
           </div>

@@ -1,8 +1,6 @@
+import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-import {
-  createAnimalInsecure,
-  getAnimalsInsecure,
-} from '../../../database/animals';
+import { createAnimal, getAnimalsInsecure } from '../../../database/animals';
 import {
   Animal,
   animalSchema,
@@ -56,12 +54,17 @@ export async function POST(
     );
   }
 
-  const newAnimal = await createAnimalInsecure({
-    firstName: result.data.firstName,
-    type: result.data.type,
-    accessory: result.data.accessory || null,
-    birthDate: result.data.birthDate,
-  });
+  // 1. Checking if the sessionToken cookie exists
+  const sessionCookie = cookies().get('sessionToken');
+
+  const newAnimal =
+    sessionCookie &&
+    (await createAnimal(sessionCookie.value, {
+      firstName: result.data.firstName,
+      type: result.data.type,
+      accessory: result.data.accessory || null,
+      birthDate: result.data.birthDate,
+    }));
 
   if (!newAnimal) {
     return NextResponse.json(

@@ -1,8 +1,9 @@
+import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import {
-  deleteAnimalInsecure,
+  deleteAnimal,
   getAnimalInsecure,
-  updateAnimalInsecure,
+  updateAnimal,
 } from '../../../../database/animals';
 import {
   Animal,
@@ -52,9 +53,15 @@ export async function DELETE(
   request: Request,
   { params }: AnimalParams,
 ): Promise<NextResponse<AnimalResponseBodyDelete>> {
-  const animal = await deleteAnimalInsecure({
-    id: Number(params.animalId),
-  });
+  // const animal = await deleteAnimalInsecure({
+  //   id: Number(params.animalId),
+  // });
+
+  // 1. Checking if the sessionToken cookie exists
+  const sessionCookie = cookies().get('sessionToken');
+  const animal =
+    sessionCookie &&
+    (await deleteAnimal(sessionCookie.value, Number(params.animalId)));
 
   if (!animal) {
     return NextResponse.json({ error: 'Animal not found' }, { status: 404 });
@@ -90,13 +97,26 @@ export async function PUT(
     );
   }
 
-  const updatedAnimal = await updateAnimalInsecure({
-    id: Number(params.animalId),
-    firstName: result.data.firstName,
-    type: result.data.type,
-    accessory: result.data.accessory || null,
-    birthDate: result.data.birthDate,
-  });
+  // const updatedAnimal = await updateAnimalInsecure({
+  //   id: Number(params.animalId),
+  //   firstName: result.data.firstName,
+  //   type: result.data.type,
+  //   accessory: result.data.accessory || null,
+  //   birthDate: result.data.birthDate,
+  // });
+
+  // 1. Checking if the sessionToken cookie exists
+  const sessionCookie = cookies().get('sessionToken');
+
+  const updatedAnimal =
+    sessionCookie &&
+    (await updateAnimal(sessionCookie.value, {
+      id: Number(params.animalId),
+      firstName: result.data.firstName,
+      type: result.data.type,
+      accessory: result.data.accessory || null,
+      birthDate: result.data.birthDate,
+    }));
 
   if (!updatedAnimal) {
     return NextResponse.json(

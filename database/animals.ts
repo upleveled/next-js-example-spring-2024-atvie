@@ -256,11 +256,11 @@ export const updateAnimalInsecure = cache(async (updatedAnimal: Animal) => {
 });
 
 export const deleteAnimalInsecure = cache(
-  async (deleteAnimal: Pick<Animal, 'id'>) => {
+  async (deletedAnimal: Pick<Animal, 'id'>) => {
     const [animal] = await sql<Animal[]>`
       DELETE FROM animals
       WHERE
-        id = ${deleteAnimal.id}
+        id = ${deletedAnimal.id}
       RETURNING
         animals.*
     `;

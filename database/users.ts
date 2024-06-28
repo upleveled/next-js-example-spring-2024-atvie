@@ -18,6 +18,7 @@ export const getUser = cache(async (sessionToken: string) => {
       users
       INNER JOIN sessions ON (
         sessions.token = ${sessionToken}
+        AND users.id = sessions.user_id
         AND expiry_timestamp > now()
       )
   `;

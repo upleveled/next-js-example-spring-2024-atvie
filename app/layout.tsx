@@ -58,6 +58,7 @@ export default async function RootLayout({ children }: Props) {
               <div>
                 {user ? (
                   <>
+                    <Link href="/notes">Notes</Link>
                     <Link href={`/profile/${user.username}`}>
                       {user.username}
                     </Link>

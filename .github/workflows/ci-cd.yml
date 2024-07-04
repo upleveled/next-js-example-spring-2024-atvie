@@ -6,7 +6,7 @@ jobs:
     name: Jest Unit Tests, Type Checking, Linting, Playwright End to End Tests
     runs-on: ubuntu-latest # or macos-latest, windows-latest
     timeout-minutes: 30
-    # Update env variables with your own database credentials
+    # TODO: Update environment variables with your own database credentials
     env:
       PGHOST: localhost
       PGDATABASE: next_js_example_spring_2024

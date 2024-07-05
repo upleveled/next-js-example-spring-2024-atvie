@@ -1,17 +1,17 @@
 import { Sql } from 'postgres';
 import { z } from 'zod';
 
-export const noteSchema = z.object({
-  title: z.string().min(3).max(100),
-  textContent: z.string().min(5),
-});
-
 export type Note = {
   id: number;
   title: string;
   textContent: string;
   userId: number;
 };
+
+export const noteSchema = z.object({
+  title: z.string().min(3).max(100),
+  textContent: z.string().min(5),
+});
 
 export async function up(sql: Sql) {
   await sql`

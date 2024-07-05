@@ -1,10 +1,6 @@
 import { cache } from 'react';
+import { User } from '../migrations/00006-createTableUsers';
 import { sql } from './connect';
-
-export type User = {
-  id: number;
-  username: string;
-};
 
 type UserWithPasswordHash = User & {
   passwordHash: string;

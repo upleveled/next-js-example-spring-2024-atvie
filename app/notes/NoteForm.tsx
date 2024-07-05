@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { User } from '../../database/users';
+import { User } from '../../migrations/00006-createTableUsers';
 import { Note } from '../../migrations/00008-createTableNotes';
 import styles from './NotesForm.module.scss';
 

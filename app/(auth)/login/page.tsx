@@ -21,7 +21,7 @@ export default async function LoginPage(props: Props) {
 
   // 3. If the sessionToken cookie is valid, redirect to home
   if (session) {
-    redirect(getSafeReturnToPath(props.searchParams.returnTo) || `/`);
+    redirect(getSafeReturnToPath(props.searchParams.returnTo) || '/');
   }
 
   // 4. If the sessionToken cookie is invalid or doesn't exist, show the login form

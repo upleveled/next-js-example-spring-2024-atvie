@@ -7,7 +7,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [windows-latest, macos-latest, ubuntu-latest]
     timeout-minutes: 15
     env:
       PGHOST: localhost
@@ -17,11 +17,16 @@ jobs:
     steps:
       # Create PostgreSQL databases on Windows, macOS and Linux
       # https://github.com/karlhorky/github-tricks/#github-actions-create-postgresql-databases-on-windows-macos-and-linux
+      - name: Install PostgreSQL on macOS
+        if: runner.os == 'macOS'
+        run: brew install postgresql
       - name: Add PostgreSQL binaries to PATH
         shell: bash
         run: |
           if [ "$RUNNER_OS" == "Windows" ]; then
             echo "$PGBIN" >> $GITHUB_PATH
+          elif [ "$RUNNER_OS" == "Linux" ]; then
+            echo "$(pg_config --bindir)" >> $GITHUB_PATH
           fi
       - name: Start preinstalled PostgreSQL
         shell: bash
@@ -47,14 +52,6 @@ jobs:
 
           echo "Creating database..."
           createdb --owner="$PGUSERNAME" --username="postgres" "$PGDATABASE"
-
-      # Avoid CRLF in Windows tests, which cause problems with Prettier:
-      # https://github.com/upleveled/preflight/runs/1824397400
-      #
-      # Suggested here: https://github.com/actions/checkout/issues/250#issuecomment-635267458
-      # Example repo: https://github.com/ghdl/ghdl/blob/aa63b5efcd2be66acc26443032df2b251e4b1a7a/.github/workflows/Test.yml#L230-L232
-      - name: Use LF instead of CRLF for clone
-        run: git config --global core.autocrlf input
 
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4

@@ -57,11 +57,13 @@ Quit `psql` using the following command:
 \q
 ```
 
-On Linux, you will also need to create a Linux system user with a name matching the user name you used in the database. It will prompt you to create a password for the user - choose the same password as for the database above.
+On Linux, you will also need to create a Linux system user with a name matching the user name you used in the database. Generate a random password for the user:
 
 ```bash
-sudo adduser <user name>
+openssl rand -hex 16
 ```
+
+Copy and save the generated password and create the user. It will prompt you to create a password for the user - choose the random generated password.
 
 Once you're ready to use the new user, reconnect using the following command.
 

@@ -65,6 +65,10 @@ openssl rand -hex 16
 
 Copy and save the generated password and create the user. It will prompt you to create a password for the user - choose the random generated password.
 
+```bash
+sudo adduser <user name>
+```
+
 Once you're ready to use the new user, reconnect using the following command.
 
 **Windows and macOS:**

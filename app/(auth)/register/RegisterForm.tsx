@@ -27,14 +27,14 @@ export default function RegisterForm() {
       },
     });
 
-    const data: RegisterResponseBodyPost = await response.json();
+    const responseBody: RegisterResponseBodyPost = await response.json();
 
-    if ('errors' in data) {
-      setErrors(data.errors);
+    if ('errors' in responseBody) {
+      setErrors(responseBody.errors);
       return;
     }
 
-    router.push(`/profile/${data.user.username}`);
+    router.push(`/profile/${responseBody.user.username}`);
 
     router.refresh();
   }

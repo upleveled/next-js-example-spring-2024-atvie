@@ -14,16 +14,14 @@ export type FruitComment = {
 };
 
 export async function createOrUpdateCookie(fruitId: number, comment: string) {
-  // 1. get current cookie
   const fruitsCommentsCookie = getCookie('fruitComments');
 
-  // 2. parse the cookie value
-  const fruitComments: FruitComment[] = !fruitsCommentsCookie
-    ? // Case A: cookie is undefined
-      []
-    : parseJson(fruitsCommentsCookie) || [];
+  let fruitComments = parseJson(fruitsCommentsCookie) as FruitComment[];
 
-  // 3. edit the cookie value
+  if (!Array.isArray(fruitComments)) {
+    fruitComments = [];
+  }
+
   const fruitToUpdate = fruitComments.find((fruitComment) => {
     return fruitComment.id === fruitId;
   });
@@ -36,6 +34,5 @@ export async function createOrUpdateCookie(fruitId: number, comment: string) {
     fruitToUpdate.comment = comment;
   }
 
-  // 4. we override the cookie
   await cookies().set('fruitComments', JSON.stringify(fruitComments));
 }

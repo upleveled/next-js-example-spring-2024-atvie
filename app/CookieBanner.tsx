@@ -18,7 +18,7 @@ export default function CookieBanner() {
     const localStorageValue = getLocalStorage('cookiePolicy');
 
     if (localStorageValue) {
-      setAreCookiesAccepted(parseJson(localStorageValue));
+      setAreCookiesAccepted(Boolean(parseJson(localStorageValue)));
       // // Another way: Convert string to boolean
       // setAreCookiesAccepted(Boolean(localStorageValue));
     } else {

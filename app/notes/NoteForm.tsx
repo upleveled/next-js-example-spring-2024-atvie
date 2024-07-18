@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { User } from '../../migrations/00006-createTableUsers';
 import { Note } from '../../migrations/00008-createTableNotes';
+import { NotesResponseBodyPost } from '../api/notes/route';
 import styles from './NotesForm.module.scss';
 
 type Prop = {
@@ -60,12 +61,16 @@ export default function NotesForm(props: Prop) {
                   let newErrorMessage = 'Error creating note';
 
                   try {
-                    const body = await response.json();
-                    newErrorMessage = body.error;
+                    const responseBody: NotesResponseBodyPost =
+                      await response.json();
+
+                    if ('error' in responseBody) {
+                      newErrorMessage = responseBody.error;
+                    }
                   } catch (error) {
                     // Don't fail if response JSON body
                     // cannot be parsed
-                    console.log(error);
+                    console.error(error);
                   }
 
                   // TODO: Use toast instead of showing

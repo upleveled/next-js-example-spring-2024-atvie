@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { Fruit, fruits } from '../../database/fruits';
+import { fruits } from '../../database/fruits';
 import { getCookie } from '../../util/cookies';
 import { parseJson } from '../../util/json';
+import { FruitComment } from './[fruitId]/actions';
 
 // const fruits = [
 //   { id: 1, name: 'Apple', icon: '🍎' },
@@ -29,26 +30,22 @@ export default function FruitsPage() {
   // get cookie and parse it!
   const fruitsCommentsCookie = getCookie('fruitComments');
 
-  const fruitComments = !fruitsCommentsCookie
-    ? []
-    : parseJson(fruitsCommentsCookie);
+  let fruitComments = parseJson(fruitsCommentsCookie) as FruitComment[];
 
-  const fruitsWithComments = fruits.map((fruit) => {
-    // type FruitObject = {
-    //   id: number;
-    // };
-    const matchingWithFruitFromCookie = fruitComments.find(
-      // (fruitObject: (typeof fruits)[number]) => fruit.id === fruitObject.id,
-      (fruitObject: Fruit) => fruit.id === fruitObject.id,
-    );
-    // ? Optional Chaining, means if matchingWithFruitFromCookie === undefined, return undefined, else return comment
-    return { ...fruit, comment: matchingWithFruitFromCookie?.comment };
-  });
+  if (!Array.isArray(fruitComments)) {
+    // Don't communicate error to user, use empty array instead
+    fruitComments = [];
+  }
 
   return (
     <>
       <h1>Fruits</h1>
-      {fruitsWithComments.map((fruit) => {
+      {fruits.map((fruit) => {
+        const fruitComment = fruitComments.find(
+          // (fruitObject: (typeof fruits)[number]) => fruit.id === fruitObject.id,
+          (fruitObject) => fruit.id === fruitObject.id,
+        );
+
         return (
           <div key={`fruit-${fruit.id}`}>
             <Link href={`/fruits/${fruit.id}`}>
@@ -56,7 +53,7 @@ export default function FruitsPage() {
                 {fruit.icon} {fruit.name}
               </h2>
             </Link>
-            <div>{fruit.comment}</div>
+            <div>{fruitComment?.comment}</div>
           </div>
         );
       })}

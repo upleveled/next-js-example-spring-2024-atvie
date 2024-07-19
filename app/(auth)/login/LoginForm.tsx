@@ -30,17 +30,18 @@ export default function LoginForm(props: Props) {
       },
     });
 
-    const data: LoginResponseBodyPost = await response.json();
+    const responseBody: LoginResponseBodyPost = await response.json();
 
-    if ('errors' in data) {
-      return setErrors(data.errors);
+    if ('errors' in responseBody) {
+      return setErrors(responseBody.errors);
     }
 
     // This is not secured
     // router.push(props.returnTo || `/profile/${data.user.username}`);
 
     router.push(
-      getSafeReturnToPath(props.returnTo) || `/profile/${data.user.username}`,
+      getSafeReturnToPath(props.returnTo) ||
+        `/profile/${responseBody.user.username}`,
     );
 
     router.refresh();

@@ -6,7 +6,7 @@ import {
   animalSchema,
 } from '../../../migrations/00000-createTableAnimals';
 
-type AnimalsResponseBodyGet = {
+export type AnimalsResponseBodyGet = {
   animals: Animal[];
 };
 
@@ -17,7 +17,7 @@ export async function GET(): Promise<NextResponse<AnimalsResponseBodyGet>> {
   return NextResponse.json({ animals: animals });
 }
 
-type AnimalsResponseBodyPost =
+export type AnimalsResponseBodyPost =
   | {
       animal: Animal;
     }

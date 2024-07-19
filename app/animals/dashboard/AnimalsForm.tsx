@@ -4,6 +4,11 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Animal } from '../../../migrations/00000-createTableAnimals';
+import {
+  AnimalResponseBodyDelete,
+  AnimalResponseBodyPut,
+} from '../../api/animals/[animalId]/route';
+import { AnimalsResponseBodyPost } from '../../api/animals/route';
 import ErrorMessage from '../../ErrorMessage';
 import styles from './AnimalsForm.module.scss';
 
@@ -84,14 +89,19 @@ export default function AnimalsForm(props: Props) {
                         setErrorMessage('');
 
                         if (!response.ok) {
-                          let newErrorMessage = 'Error deleting the animal';
+                          let newErrorMessage = 'Error deleting animal';
 
                           try {
-                            const body = await response.json();
-                            newErrorMessage = body.error;
-                          } catch {
+                            const responseBody: AnimalResponseBodyDelete =
+                              await response.json();
+
+                            if ('error' in responseBody) {
+                              newErrorMessage = responseBody.error;
+                            }
+                          } catch (error) {
                             // Don't fail if response JSON body
                             // cannot be parsed
+                            console.error(error);
                           }
 
                           // TODO: Use toast instead of showing
@@ -140,15 +150,18 @@ export default function AnimalsForm(props: Props) {
                   setErrorMessage('');
 
                   if (!response.ok) {
-                    let newErrorMessage = 'Error updating the animal';
+                    let newErrorMessage = 'Error updating animal';
 
                     try {
-                      const body = await response.json();
-                      newErrorMessage = body.error;
+                      const body: AnimalResponseBodyPut = await response.json();
+
+                      if ('error' in body) {
+                        newErrorMessage = body.error;
+                      }
                     } catch (error) {
-                      console.log('err', error);
                       // Don't fail if response JSON body cannot
                       // be parsed
+                      console.error(error);
                     }
 
                     setErrorMessage(newErrorMessage);
@@ -171,14 +184,19 @@ export default function AnimalsForm(props: Props) {
                   setErrorMessage('');
 
                   if (!response.ok) {
-                    let newErrorMessage = 'Error creating the animal';
+                    let newErrorMessage = 'Error creating animal';
 
                     try {
-                      const body = await response.json();
-                      newErrorMessage = body.error;
-                    } catch {
+                      const body: AnimalsResponseBodyPost =
+                        await response.json();
+
+                      if ('error' in body) {
+                        newErrorMessage = body.error;
+                      }
+                    } catch (error) {
                       // Don't fail if response JSON body cannot
                       // be parsed
+                      console.error(error);
                     }
 
                     setErrorMessage(newErrorMessage);

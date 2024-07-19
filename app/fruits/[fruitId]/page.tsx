@@ -21,9 +21,11 @@ export default function SingleFruitPage(props: Props) {
   // get cookie and parse it!
   const fruitsCommentsCookie = getCookie('fruitComments');
 
-  const fruitComments = !fruitsCommentsCookie
-    ? []
-    : parseJson(fruitsCommentsCookie);
+  let fruitComments = parseJson(fruitsCommentsCookie) as FruitComment[];
+
+  if (!Array.isArray(fruitComments)) {
+    fruitComments = [];
+  }
 
   const fruitCommentToDisplay = fruitComments.find(
     (fruitComment: FruitComment) => {

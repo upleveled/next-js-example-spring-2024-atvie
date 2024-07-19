@@ -10,7 +10,7 @@ import {
   animalSchema,
 } from '../../../../migrations/00000-createTableAnimals';
 
-type AnimalResponseBodyGet =
+export type AnimalResponseBodyGet =
   | {
       animal: Animal;
     }
@@ -41,7 +41,7 @@ export async function GET(
   return NextResponse.json({ animal: animal });
 }
 
-type AnimalResponseBodyDelete =
+export type AnimalResponseBodyDelete =
   | {
       animal: Animal;
     }
@@ -69,7 +69,7 @@ export async function DELETE(
   return NextResponse.json({ animal: animal });
 }
 
-type AnimalResponseBodyPut =
+export type AnimalResponseBodyPut =
   | {
       animal: Animal;
     }

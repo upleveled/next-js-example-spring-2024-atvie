@@ -17,6 +17,17 @@ const connectOneTimeToDatabase = (() => {
     }
 
     // Workaround to force Next.js Dynamic Rendering on every database query
+    //
+    // Wrap sql`` tagged template function to call `noStore()` from
+    // next/cache before each database query. `noStore()` is a
+    // Next.js Dynamic Function, which causes the page to use
+    // Dynamic Rendering
+    //
+    // https://nextjs.org/docs/app/building-your-application/rendering/static-and-dynamic-rendering
+    //
+    // Ideally there would something built into Next.js for this,
+    // which has been requested here:
+    //
     // https://github.com/vercel/next.js/discussions/50695
     return ((
       ...sqlParameters: Parameters<typeof postgresSqlClient>

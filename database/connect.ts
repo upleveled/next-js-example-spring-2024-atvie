@@ -11,8 +11,8 @@ setEnvironmentVariables();
 const connectOneTimeToDatabase = (() => {
   let postgresSqlClient: Sql;
 
-  return function connectOneTimeToDatabase() {
-    if (!postgresSqlClient) {
+  return () => {
+    if (typeof postgresSqlClient === 'undefined') {
       postgresSqlClient = postgres(postgresConfig);
     }
 

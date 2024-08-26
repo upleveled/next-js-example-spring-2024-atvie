@@ -16,7 +16,7 @@ const connectOneTimeToDatabase = (() => {
       postgresSqlClient = postgres(postgresConfig);
     }
 
-    // Workaround to force Next.js Dynamic Rendering on every database query
+    // Workaround to force Next.js Dynamic Rendering on every database query:
     //
     // Wrap sql`` tagged template function to call `noStore()` from
     // next/cache before each database query. `noStore()` is a

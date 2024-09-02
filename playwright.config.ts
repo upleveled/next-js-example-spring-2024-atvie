@@ -8,6 +8,7 @@ const config: PlaywrightTestConfig = {
     stdout: 'pipe',
   },
   testMatch: '**/playwright/**',
+  testIgnore: ['**/playwright/report/**', '**/playwright/test-results/**'],
   // Fail tests if test.only() found on CI
   forbidOnly: !!process.env.CI,
   // Run tests in files also in parallel

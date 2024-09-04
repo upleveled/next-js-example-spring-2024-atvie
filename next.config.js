@@ -2,6 +2,7 @@
 const nextConfig = {
   experimental: {
     typedRoutes: true,
+    dynamicIO: true,
   },
   eslint: {
     ignoreDuringBuilds: true,

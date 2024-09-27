@@ -19,9 +19,9 @@ export type AnimalResponseBodyGet =
     };
 
 type AnimalParams = {
-  params: {
+  params: Promise<{
     animalId: string;
-  };
+  }>;
 };
 
 // WARNING: You probably don't need this, because you can just do
@@ -30,7 +30,7 @@ export async function GET(
   request: Request,
   { params }: AnimalParams,
 ): Promise<NextResponse<AnimalResponseBodyGet>> {
-  const animal = await getAnimalInsecure(Number(params.animalId));
+  const animal = await getAnimalInsecure(Number((await params).animalId));
 
   if (!animal) {
     return NextResponse.json(
@@ -61,7 +61,7 @@ export async function DELETE(
   const sessionCookie = await getCookie('sessionToken');
   const animal =
     sessionCookie &&
-    (await deleteAnimal(sessionCookie, Number(params.animalId)));
+    (await deleteAnimal(sessionCookie, Number((await params).animalId)));
 
   if (!animal) {
     return NextResponse.json({ error: 'Animal not found' }, { status: 404 });
@@ -111,7 +111,7 @@ export async function PUT(
   const updatedAnimal =
     sessionCookie &&
     (await updateAnimal(sessionCookie, {
-      id: Number(params.animalId),
+      id: Number((await params).animalId),
       firstName: result.data.firstName,
       type: result.data.type,
       accessory: result.data.accessory || null,

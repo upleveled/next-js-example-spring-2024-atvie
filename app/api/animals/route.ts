@@ -1,10 +1,10 @@
-import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { createAnimal, getAnimalsInsecure } from '../../../database/animals';
 import {
   Animal,
   animalSchema,
 } from '../../../migrations/00000-createTableAnimals';
+import { getCookie } from '../../../util/cookies';
 
 export type AnimalsResponseBodyGet = {
   animals: Animal[];
@@ -55,11 +55,11 @@ export async function POST(
   }
 
   // 1. Checking if the sessionToken cookie exists
-  const sessionCookie = cookies().get('sessionToken');
+  const sessionCookie = await getCookie('sessionToken');
 
   const newAnimal =
     sessionCookie &&
-    (await createAnimal(sessionCookie.value, {
+    (await createAnimal(sessionCookie, {
       firstName: result.data.firstName,
       type: result.data.type,
       accessory: result.data.accessory || null,

@@ -6,20 +6,20 @@ import { FruitComment } from './actions';
 import FruitCommentForm from './FruitCommentForm';
 
 type Props = {
-  params: {
+  params: Promise<{
     fruitId: string;
-  };
+  }>;
 };
 
-export default function SingleFruitPage(props: Props) {
-  const fruit = getFruit(Number(props.params.fruitId));
+export default async function SingleFruitPage(props: Props) {
+  const fruit = getFruit(Number((await props.params).fruitId));
 
   if (!fruit) {
     notFound();
   }
 
   // get cookie and parse it!
-  const fruitsCommentsCookie = getCookie('fruitComments');
+  const fruitsCommentsCookie = await getCookie('fruitComments');
 
   let fruitComments = parseJson(fruitsCommentsCookie) as FruitComment[];
 

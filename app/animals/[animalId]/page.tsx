@@ -4,7 +4,9 @@ import { getAnimalInsecure } from '../../../database/animals';
 import { formatDate, getDaysUntilNextBirthday } from '../../../util/dates';
 
 export async function generateMetadata(props: Props) {
-  const singleAnimal = await getAnimalInsecure(Number(props.params.animalId));
+  const singleAnimal = await getAnimalInsecure(
+    Number((await props.params).animalId),
+  );
 
   return {
     title: singleAnimal?.firstName,
@@ -13,13 +15,15 @@ export async function generateMetadata(props: Props) {
 }
 
 type Props = {
-  params: {
+  params: Promise<{
     animalId: string;
-  };
+  }>;
 };
 
 export default async function AnimalPage(props: Props) {
-  const singleAnimal = await getAnimalInsecure(Number(props.params.animalId));
+  const singleAnimal = await getAnimalInsecure(
+    Number((await props.params).animalId),
+  );
 
   console.log('Single animal: ', singleAnimal);
 

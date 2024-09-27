@@ -83,7 +83,7 @@ export async function POST(
   }
 
   // 7. Send the new cookie in the headers
-  // cookies().set({
+  // (await cookies()).set({
   //   name: 'sessionToken',
   //   value: session.token,
   //   httpOnly: true,
@@ -93,7 +93,7 @@ export async function POST(
   //   sameSite: 'lax',
   // });
 
-  cookies().set({
+  (await cookies()).set({
     name: 'sessionToken',
     value: session.token,
     ...secureCookieOptions,

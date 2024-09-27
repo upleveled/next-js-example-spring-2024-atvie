@@ -7,18 +7,18 @@ import {
 import { reduceAnimalsWithFoods } from '../../../../util/dataStructures';
 
 type Props = {
-  params: {
+  params: Promise<{
     animalId: string;
-  };
+  }>;
 };
 
 export default async function AnimalFoodsPage(props: Props) {
   const animalsWithFood = await getAnimalsWithFoodsInsecure(
-    Number(props.params.animalId),
+    Number((await props.params).animalId),
   );
 
   const animalWithFoodsArray = await getAnimalWithFoodsInsecure(
-    Number(props.params.animalId),
+    Number((await props.params).animalId),
   );
 
   if (!animalsWithFood[0] || !animalWithFoodsArray) {

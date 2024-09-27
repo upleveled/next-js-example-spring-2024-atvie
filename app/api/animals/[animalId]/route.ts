@@ -1,4 +1,3 @@
-import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import {
   deleteAnimal,
@@ -9,6 +8,7 @@ import {
   Animal,
   animalSchema,
 } from '../../../../migrations/00000-createTableAnimals';
+import { getCookie } from '../../../../util/cookies';
 
 export type AnimalResponseBodyGet =
   | {
@@ -19,9 +19,9 @@ export type AnimalResponseBodyGet =
     };
 
 type AnimalParams = {
-  params: {
+  params: Promise<{
     animalId: string;
-  };
+  }>;
 };
 
 // WARNING: You probably don't need this, because you can just do
@@ -30,7 +30,7 @@ export async function GET(
   request: Request,
   { params }: AnimalParams,
 ): Promise<NextResponse<AnimalResponseBodyGet>> {
-  const animal = await getAnimalInsecure(Number(params.animalId));
+  const animal = await getAnimalInsecure(Number((await params).animalId));
 
   if (!animal) {
     return NextResponse.json(
@@ -58,10 +58,10 @@ export async function DELETE(
   // });
 
   // 1. Checking if the sessionToken cookie exists
-  const sessionCookie = cookies().get('sessionToken');
+  const sessionCookie = await getCookie('sessionToken');
   const animal =
     sessionCookie &&
-    (await deleteAnimal(sessionCookie.value, Number(params.animalId)));
+    (await deleteAnimal(sessionCookie, Number((await params).animalId)));
 
   if (!animal) {
     return NextResponse.json({ error: 'Animal not found' }, { status: 404 });
@@ -106,12 +106,12 @@ export async function PUT(
   // });
 
   // 1. Checking if the sessionToken cookie exists
-  const sessionCookie = cookies().get('sessionToken');
+  const sessionCookie = await getCookie('sessionToken');
 
   const updatedAnimal =
     sessionCookie &&
-    (await updateAnimal(sessionCookie.value, {
-      id: Number(params.animalId),
+    (await updateAnimal(sessionCookie, {
+      id: Number((await params).animalId),
       firstName: result.data.firstName,
       type: result.data.type,
       accessory: result.data.accessory || null,

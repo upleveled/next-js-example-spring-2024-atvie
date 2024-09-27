@@ -5,9 +5,9 @@ import { getSafeReturnToPath } from '../../../util/validation';
 import LoginForm from './LoginForm';
 
 type Props = {
-  searchParams: {
+  searchParams: Promise<{
     returnTo?: string | string[];
-  };
+  }>;
 };
 
 export default async function LoginPage(props: Props) {
@@ -21,9 +21,9 @@ export default async function LoginPage(props: Props) {
 
   // 3. If the sessionToken cookie is valid, redirect to home
   if (session) {
-    redirect(getSafeReturnToPath(props.searchParams.returnTo) || '/');
+    redirect(getSafeReturnToPath((await props.searchParams).returnTo) || '/');
   }
 
   // 4. If the sessionToken cookie is invalid or doesn't exist, show the login form
-  return <LoginForm returnTo={props.searchParams.returnTo} />;
+  return <LoginForm returnTo={(await props.searchParams).returnTo} />;
 }

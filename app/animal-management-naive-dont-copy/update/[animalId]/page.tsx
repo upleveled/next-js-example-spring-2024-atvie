@@ -2,9 +2,9 @@ import { notFound } from 'next/navigation';
 import { updateAnimalInsecure } from '../../../../database/animals';
 
 type Props = {
-  params: {
+  params: Promise<{
     animalId: string;
-  };
+  }>;
   searchParams: {
     firstName: string;
     type: string;
@@ -15,7 +15,7 @@ type Props = {
 
 export default async function UpdateAnimalNaivePage(props: Props) {
   const animal = await updateAnimalInsecure({
-    id: Number(props.params.animalId),
+    id: Number((await props.params).animalId),
     firstName: props.searchParams.firstName,
     type: props.searchParams.type,
     accessory: props.searchParams.accessory,

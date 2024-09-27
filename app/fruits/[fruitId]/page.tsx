@@ -11,7 +11,7 @@ type Props = {
   };
 };
 
-export default function SingleFruitPage(props: Props) {
+export default async function SingleFruitPage(props: Props) {
   const fruit = getFruit(Number(props.params.fruitId));
 
   if (!fruit) {
@@ -19,7 +19,7 @@ export default function SingleFruitPage(props: Props) {
   }
 
   // get cookie and parse it!
-  const fruitsCommentsCookie = getCookie('fruitComments');
+  const fruitsCommentsCookie = await getCookie('fruitComments');
 
   let fruitComments = parseJson(fruitsCommentsCookie) as FruitComment[];
 

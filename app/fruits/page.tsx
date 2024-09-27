@@ -26,9 +26,9 @@ import { FruitComment } from './[fruitId]/actions';
 //   { id: 5, name: 'Orange', icon: '🍊', comment: undefined },
 // ]
 
-export default function FruitsPage() {
+export default async function FruitsPage() {
   // get cookie and parse it!
-  const fruitsCommentsCookie = getCookie('fruitComments');
+  const fruitsCommentsCookie = await getCookie('fruitComments');
 
   let fruitComments = parseJson(fruitsCommentsCookie) as FruitComment[];
 

@@ -12,6 +12,7 @@ type Props = {
 
 export default async function LoginPage(props: Props) {
   // Task: Add redirect to home if user is logged in
+  const searchParams = await props.searchParams;
 
   // 1. Checking if the sessionToken cookie exists
   const sessionCookie = await getCookie('sessionToken');
@@ -21,9 +22,9 @@ export default async function LoginPage(props: Props) {
 
   // 3. If the sessionToken cookie is valid, redirect to home
   if (session) {
-    redirect(getSafeReturnToPath((await props.searchParams).returnTo) || '/');
+    redirect(getSafeReturnToPath(searchParams.returnTo) || '/');
   }
 
   // 4. If the sessionToken cookie is invalid or doesn't exist, show the login form
-  return <LoginForm returnTo={(await props.searchParams).returnTo} />;
+  return <LoginForm returnTo={searchParams.returnTo} />;
 }

@@ -13,12 +13,14 @@ type Props = {
 };
 
 export default async function AnimalFoodsPage(props: Props) {
+  const params = await props.params;
+
   const animalsWithFood = await getAnimalsWithFoodsInsecure(
-    Number((await props.params).animalId),
+    Number(params.animalId),
   );
 
   const animalWithFoodsArray = await getAnimalWithFoodsInsecure(
-    Number((await props.params).animalId),
+    Number(params.animalId),
   );
 
   if (!animalsWithFood[0] || !animalWithFoodsArray) {

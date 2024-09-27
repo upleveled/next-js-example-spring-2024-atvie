@@ -5,11 +5,13 @@ import { createAnimalInsecure } from '../../../database/animals';
 // ?firstName=Lucia&type=Duck&accessory=Bike&birthDate=2020-04-10
 
 export default async function CreateAnimalNaivePage(props) {
+  const searchParams = await props.searchParams;
+
   const animal = await createAnimalInsecure({
-    firstName: (await props.searchParams).firstName,
-    type: (await props.searchParams).type,
-    accessory: (await props.searchParams).accessory,
-    birthDate: new Date((await props.searchParams).birthDate),
+    firstName: searchParams.firstName,
+    type: searchParams.type,
+    accessory: searchParams.accessory,
+    birthDate: new Date(searchParams.birthDate),
   });
 
   if (!animal) {

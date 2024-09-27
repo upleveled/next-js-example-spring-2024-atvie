@@ -3,7 +3,9 @@ import { expect, test } from '@playwright/test';
 test('navigation test', async ({ page }) => {
   await page.goto('/');
 
-  await expect(page.getByRole('heading', { name: 'Hello UpLeveled' })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'Hello UpLeveled' }),
+  ).toBeVisible();
 
   // header with page.locator, still valid and more robust
   await expect(page.locator('h1:text("Hello UpLeveled")')).toBeVisible();

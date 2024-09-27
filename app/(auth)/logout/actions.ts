@@ -7,7 +7,7 @@ export async function logout() {
   // Task: Implement the user logout workflow
 
   // 1. Get the session token from the cookie
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
 
   const session = cookieStore.get('sessionToken');
 

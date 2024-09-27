@@ -1,4 +1,3 @@
-import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import {
   deleteAnimal,
@@ -9,6 +8,7 @@ import {
   Animal,
   animalSchema,
 } from '../../../../migrations/00000-createTableAnimals';
+import { getCookie } from '../../../../util/cookies';
 
 export type AnimalResponseBodyGet =
   | {
@@ -58,10 +58,10 @@ export async function DELETE(
   // });
 
   // 1. Checking if the sessionToken cookie exists
-  const sessionCookie = cookies().get('sessionToken');
+  const sessionCookie = await getCookie('sessionToken');
   const animal =
     sessionCookie &&
-    (await deleteAnimal(sessionCookie.value, Number(params.animalId)));
+    (await deleteAnimal(sessionCookie, Number(params.animalId)));
 
   if (!animal) {
     return NextResponse.json({ error: 'Animal not found' }, { status: 404 });
@@ -106,11 +106,11 @@ export async function PUT(
   // });
 
   // 1. Checking if the sessionToken cookie exists
-  const sessionCookie = cookies().get('sessionToken');
+  const sessionCookie = await getCookie('sessionToken');
 
   const updatedAnimal =
     sessionCookie &&
-    (await updateAnimal(sessionCookie.value, {
+    (await updateAnimal(sessionCookie, {
       id: Number(params.animalId),
       firstName: result.data.firstName,
       type: result.data.type,

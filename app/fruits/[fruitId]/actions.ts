@@ -15,7 +15,7 @@ export type FruitComment = {
 
 export async function createOrUpdateCookie(fruitId: number, comment: string) {
   // 1. Get current cookie
-  const fruitsCommentsCookie = getCookie('fruitComments');
+  const fruitsCommentsCookie = await getCookie('fruitComments');
 
   // 2. Parse the cookie value
   let fruitComments = parseJson(fruitsCommentsCookie) as FruitComment[];
@@ -39,5 +39,5 @@ export async function createOrUpdateCookie(fruitId: number, comment: string) {
   }
 
   // 5. Set the cookie to the updated value
-  await cookies().set('fruitComments', JSON.stringify(fruitComments));
+  (await cookies()).set('fruitComments', JSON.stringify(fruitComments));
 }

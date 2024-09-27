@@ -1,7 +1,7 @@
-import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { createNote } from '../../../database/notes';
 import { noteSchema } from '../../../migrations/00008-createTableNotes';
+import { getCookie } from '../../../util/cookies';
 
 export type NotesResponseBodyPost =
   | {
@@ -32,13 +32,13 @@ export async function POST(
   }
 
   // 3. Get the token from the cookie
-  const sessionTokenCookie = cookies().get('sessionToken');
+  const sessionTokenCookie = await getCookie('sessionToken');
 
   // 4. Create the note
   const newNote =
     sessionTokenCookie &&
     (await createNote(
-      sessionTokenCookie.value,
+      sessionTokenCookie,
       result.data.title,
       result.data.textContent,
     ));

@@ -1,8 +1,8 @@
 import { getCookie } from '../../util/cookies';
 import SetCookieForm from './SetCookieForm';
 
-export default function SetCookiePage() {
-  const testCookieValue = getCookie('testCookie');
+export default async function SetCookiePage() {
+  const testCookieValue = await getCookie('testCookie');
 
   return (
     <>

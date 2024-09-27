@@ -1,8 +1,8 @@
 import './globals.scss';
 import localFont from 'next/font/local';
-import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { getUser } from '../database/users';
+import { getCookie } from '../util/cookies';
 import LogoutButton from './(auth)/logout/LogoutButton';
 import CookieBanner from './CookieBanner';
 
@@ -33,10 +33,10 @@ export default async function RootLayout({ children }: Props) {
   // Task: Protect the dashboard page and redirect to login if the user is not logged in
 
   // 1. Checking if the sessionToken cookie exists
-  const sessionCookie = cookies().get('sessionToken');
+  const sessionCookie = await getCookie('sessionToken');
 
   // 2. Get the current logged in user from the database using the sessionToken value
-  const user = sessionCookie && (await getUser(sessionCookie.value));
+  const user = sessionCookie && (await getUser(sessionCookie));
 
   return (
     <html lang="en">

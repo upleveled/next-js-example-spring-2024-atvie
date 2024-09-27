@@ -5,21 +5,21 @@ type Props = {
   params: Promise<{
     animalId: string;
   }>;
-  searchParams: {
+  searchParams: Promise<{
     firstName: string;
     type: string;
     accessory: string;
     birthDate: string;
-  };
+  }>;
 };
 
 export default async function UpdateAnimalNaivePage(props: Props) {
   const animal = await updateAnimalInsecure({
     id: Number((await props.params).animalId),
-    firstName: props.searchParams.firstName,
-    type: props.searchParams.type,
-    accessory: props.searchParams.accessory,
-    birthDate: new Date(props.searchParams.birthDate),
+    firstName: (await props.searchParams).firstName,
+    type: (await props.searchParams).type,
+    accessory: (await props.searchParams).accessory,
+    birthDate: new Date((await props.searchParams).birthDate),
   });
 
   if (!animal) {

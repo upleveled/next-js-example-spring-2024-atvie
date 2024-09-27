@@ -6,10 +6,10 @@ import { createAnimalInsecure } from '../../../database/animals';
 
 export default async function CreateAnimalNaivePage(props) {
   const animal = await createAnimalInsecure({
-    firstName: props.searchParams.firstName,
-    type: props.searchParams.type,
-    accessory: props.searchParams.accessory,
-    birthDate: new Date(props.searchParams.birthDate),
+    firstName: (await props.searchParams).firstName,
+    type: (await props.searchParams).type,
+    accessory: (await props.searchParams).accessory,
+    birthDate: new Date((await props.searchParams).birthDate),
   });
 
   if (!animal) {

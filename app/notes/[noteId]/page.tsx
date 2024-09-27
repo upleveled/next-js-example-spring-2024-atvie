@@ -3,9 +3,9 @@ import { getNote } from '../../../database/notes';
 import { getCookie } from '../../../util/cookies';
 
 type Props = {
-  params: {
+  params: Promise<{
     noteId: string;
-  };
+  }>;
 };
 
 export default async function NotePage({ params }: Props) {
@@ -18,7 +18,7 @@ export default async function NotePage({ params }: Props) {
   // 2. Query the notes with the session token and noteId
   const note =
     sessionTokenCookie &&
-    (await getNote(sessionTokenCookie, Number(params.noteId)));
+    (await getNote(sessionTokenCookie, Number((await params).noteId)));
 
   // 3. If there is no note for the current user, show restricted access message
   if (!note) {

@@ -6,13 +6,13 @@ import { FruitComment } from './actions';
 import FruitCommentForm from './FruitCommentForm';
 
 type Props = {
-  params: {
+  params: Promise<{
     fruitId: string;
-  };
+  }>;
 };
 
 export default async function SingleFruitPage(props: Props) {
-  const fruit = getFruit(Number(props.params.fruitId));
+  const fruit = getFruit(Number((await props.params).fruitId));
 
   if (!fruit) {
     notFound();

@@ -24,7 +24,8 @@ export default async function NotePage({ params }: Props) {
   if (!note) {
     return (
       <div>
-        <h1>Restricted access</h1>
+        <h1>Access Denied</h1>
+        <div>You do not have permission to access this note</div>
         <Link href="/notes">Back to notes</Link>
       </div>
     );
